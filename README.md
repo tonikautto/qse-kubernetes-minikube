@@ -14,30 +14,28 @@ Scripts and details are based on default deployment of Qlik Sense April 2019 in 
 
 ## Pre-requisites
 
+- Qlik Sense Enterprise signed license key
+- Windows client machine
+- Tools to run and envrionemtn 
+    - Virtualbox
+    - Minikube
+    - Kubectl
+    - Helm
+
+## Install Tools
 Tools only need to be installed once, and only if not already installed. Below references use [Chocolatey package manager for Windows](https://chocolatey.org/) as an easy way to silently install the required tools. 
 
-1. Open PowerShell terminal as Administrator
+1. Open PowerShell terminal as Administrator 
 1. Install Chocolatey package manager
     ```
     Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
     ```
-1. Install Virtualbox 
-    ```
-    choco install virtualbox --yes
-    ```
-1. Install Minikube
-    ```
-    choco install minikube --yes
-    ```
-1. Install Kubectl
-    ```
-    choco install kubernetes-cli --yes
-    ```
-1. Install Helm
-    ```
-    choco install kubernetes-helm --yes
-    ``` 
-1. Restart computer to ensure compelted install of all tools
+1. Install tool packages from Chocolatey
+    - Virtualbox `choco install virtualbox --yes`
+    - Minikube `choco install minikube --yes`
+    - Kubectl `choco install kubernetes-cli --yes`
+    - Helm `choco install kubernetes-helm --yes` 
+1. Restart computer to complete installations
 
 ## Deploy Qlik Sense on Kubernetes on Minikube
 
