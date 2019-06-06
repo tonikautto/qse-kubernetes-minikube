@@ -60,7 +60,7 @@ Tools only need to be installed once, and only if not already installed. Below r
 
 *Error: validation failed: error validating "": error validating data: unknown object type "nil" in Secret.data.redis-password`*
 
-This error appears during Qlik package installation, when using Helm 2.14. Issue can be reoslve by downgrading to Helm 12.3.1. <br />
+This error appears during Qlik package installation, when using Helm 2.14. Issue can be reoslve by downgrading to Helm 2.13.1. <br />
 
 `choco install kubernetes-helm --version 2.13.1 --yes --force`
 
