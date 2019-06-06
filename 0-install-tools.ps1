@@ -14,4 +14,7 @@ choco install minikube --yes
 choco install kubernetes-cli --yes
 
 # Helm
-choco install kubernetes-helm --yes
+#choco install kubernetes-helm --yes
+# Workaround due to issues with Helm 2.14, https://support.qlik.com/articles/000075385
+choco install kubernetes-helm --version 2.13.1 --yes --force
+
