@@ -56,6 +56,14 @@ Tools only need to be installed once, and only if not already installed. Below r
 
 1. Terminated and remove minikube instance <br /> `minikube delete`
 
+## Troubleshooting
+
+*Error: validation failed: error validating "": error validating data: unknown object type "nil" in Secret.data.redis-password`*
+
+This error appears during Qlik package installation, when using Helm 2.14. Issue can be reoslve by downgrading to Helm 12.3.1. <br />
+
+`choco install kubernetes-helm --version 2.13.1 --yes --force`
+
 ## License
 
 This project is provided "AS IS", without any warranty, under the MIT License - see the [LICENSE](LICENSE) file for details
