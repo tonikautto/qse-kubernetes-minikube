@@ -1,5 +1,5 @@
 # Start minikube with 2 CPU and 8GB RAM
-minikube start --memory 8000 --cpus=2
+minikube start --memory 8000 --cpus=4
 
 # Force Kubectl to poin to minikube
 kubectl config set-cluster minikube
@@ -15,3 +15,9 @@ helm install --name qliksense-init qlik/qliksense-init
 
 # Install the Qlik Sense package
 helm install -n qliksense qlik/qliksense -f values.yaml
+
+# List pods
+kubectl get pods
+
+# Print IP
+minikube ip

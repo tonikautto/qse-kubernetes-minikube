@@ -2,9 +2,7 @@
 
 This project simplifies the deployment of Qlik Sense Enterprise for Kubernetes (QSEoK) on local Minikube. This can be used for testing, but should not be applied in production environment. 
 
-Scripts and details are based on default deployment of Qlik Sense April 2019 in a Windows client machine.
-
-## Qlik Sense Help Reference 
+Scripts and details are based on default deployment of Qlik Sense April 2019 as described in related Qlik Help pages.
 
 * [Qlik Sense Help](https://help.qlik.com/en-US/sense/Content/Sense_Helpsites/Home.htm)
 * [Qlik Sense Enterprise on Kubernetes](https://help.qlik.com/en-US/sense/April2019/Subsystems/PlanningQlikSenseDeployments/Content/Sense_Deployment/Deploying-Qlik-Sense-multi-cloud-Efe.htm)
@@ -15,37 +13,89 @@ Scripts and details are based on default deployment of Qlik Sense April 2019 in 
 ## Pre-requisites
 
 - Qlik Sense Enterprise signed license key
-- Windows client machine
-- Tools to run and envrionemtn 
+- Package manager installed 
+    - Windows: [Install Chocolatey](https://chocolatey.org/install)
+    - MacOS: [Install Homebrew](https://brew.sh/)
+- Tools to run and envrionment 
     - Virtualbox
     - Minikube
     - Kubectl
     - Helm
+- Internet access
+
+## Before you begin 
+
+Check that virtualization is enabled on your client machine. 
+
+### Windows
+
+Run `systeminfo` command in Powershell to confirm if virtualization is enabled on your computer. 
+If you see the following output, virtualization is supported on Windows.
+If you do not get below details, please enable virtualization (VT-x feature) in BIOS settings. 
+```
+Hyper-V Requirements: VM Monitor Mode Extensions: Yes
+                        Virtualization Enabled In Firmware: Yes
+                        Second Level Address Translation: Yes
+                        Data Execution Prevention Available: Yes
+```                          
+
+### MacOS
+
+Run the following command in terminal to confirm if virtualization is supported on macOS.
+<br/>`sysctl -a | grep machdep.cpu.features`
+<br/>If you see VMX in the output, the VT-x feature is supported on your OS.
 
 ## Install Tools
-Tools only need to be installed once, and only if not already installed. Below references use [Chocolatey package manager for Windows](https://chocolatey.org/) as an easy way to silently install the required tools. 
+Tools only need to be installed once, and only if not already installed. 
 
-1. Open PowerShell terminal as Administrator 
-1. Install Chocolatey package manager
-    ```
-    Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-    ```
-1. Install tool packages from Chocolatey
-    - Virtualbox `choco install virtualbox --yes`
-    - Minikube `choco install minikube --yes`
-    - Kubectl `choco install kubernetes-cli --yes`
-    - Helm `choco install kubernetes-helm --yes` 
-1. Restart computer to complete installations
+Below references use [Chocolatey package manager for Windows](https://chocolatey.org/) or [Homebrew package manager for MacOS](https://brew.sh/). 
+
+1. Open terminal
+    - Windows: PowerShell terminal as Administrator 
+    - MacOS: Terminal
+1. Install tool packages 
+    - Windows
+        - Virtualbox: `choco install virtualbox --force --yes`
+        - Minikube: `choco install minikube --force --yes`
+        - Kubectl: `choco install kubernetes-cli --force --yes`
+        - Helm: `choco install kubernetes-helm --force --yes` 
+    - MacOS 
+        - Virtualbox: `brew cask install virtualbox`
+        - Minikube: `brew cask install minikube`
+        - Kubectl: `brew install kubernetes-cli`
+        - Helm: `brew install kubernetes-helm`
+1. Open Virtualbox GUI to confirm it was instaleld correctly 
+1. Open tools help to confirm successful install
+    - Minikube `minikube --help`
+    - Kubectl `kubectl --help`
+    - Helm `helm --help`
 
 ## Deploy Qlik Sense on Kubernetes on Minikube
 
-1. Open Powershell terminal
-1. Run `1-Deploy-Minikube.ps1` to deploy QSEoK on Minikube
-    - Runs Minikube VM in Virtual box
-    - Installs and configures QSE on Kubernetes
-1. Run `kubectl get pods` until all pods are running. <br/>Note, this takes several minutes. 
-1. Get Minikube IP address `minikube ip`
-1. Update Windows hostfile in *C:\Windows\System32\drivers\etc* to include row with IP from previous refering to *elastic.example*  <br /> `<IP ADDRESS> elastic.example` 
+1. Open Powershell (Run as Administrator) in Windows _or_ Terminal in MacOS
+1. Start Minikube 
+`minikube start --memory 8000 --cpus=4`
+<br/>Note: Set the kube size so it fits within available resources
+1. Configure Kubesctl to target Minikube 
+`kubectl config set-cluster minikube`
+1. Add Qlik's chart repository to Helm 
+`helm repo add qlik https://qlik.bintray.com/stable`
+1. Initiate Helm for deployment into Kubernetes. Helm Tiller pod is added to the Kubernetes cluster first.
+ `helm init --wait`
+1. Install custom resource definitions used by dynamic engines
+`helm install --name qliksense-init qlik/qliksense-init`
+1. Install the Qlik Sense packages
+`helm install -n qliksense qlik/qliksense -f values.yaml`
+1. List pods to see their current status
+`kubectl get pods`
+1. Repeat previous step until all pods (besides engine) are running. 
+<br/>Note, this takes several minutes. 
+1. Get Minikube IP address 
+`minikube ip`
+1. Update local host file to enable resolving Minikube IP to *elastic.example*.  
+<br/>Windows: *C:\Windows\System32\drivers\etc\hosts*
+<br/>MacOS: 
+Windows hostfile in *C:\Windows\System32\drivers\etc* to include row with IP from previous refering to *elastic.example*  <br /> `<IP ADDRESS> elastic.example` 
 1. Browse to console https://elastic.example:32443/console/
 1. Apply license
 1. Browse to Hub https://elastic.example:32443
