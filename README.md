@@ -2,6 +2,8 @@
 
 This project simplifies the deployment of Qlik Sense Enterprise for Kubernetes (QSEoK) on local Minikube. This can be used for testing, but should not be applied in production environment. 
 
+`values.yaml` contains the deployment configuration for QSEoK. Depending on your custom configuration this file may contain secret details e.g. related to authentication setup. Caution is advised on shairng your custom configuration file to others. 
+
 Scripts and details are based on default deployment of Qlik Sense April 2019 as described in related Qlik Help pages.
 
 * [Qlik Sense Help](https://help.qlik.com/en-US/sense/Content/Sense_Helpsites/Home.htm)
