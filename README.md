@@ -74,24 +74,24 @@ Below references use [Chocolatey package manager for Windows](https://chocolatey
 
 1. Open Powershell (Run as Administrator) in Windows _or_ Terminal in MacOS
 1. Start Minikube 
-`minikube start --memory 8000 --cpus=4`
+<br/>`minikube start --memory 8000 --cpus=4`
 <br/>Note: Set the kube size so it fits within available resources
 1. Configure Kubesctl to target Minikube 
-`kubectl config set-cluster minikube`
+<br/>`kubectl config set-cluster minikube`
 1. Add Qlik's chart repository to Helm 
-`helm repo add qlik https://qlik.bintray.com/stable`
+<br/>`helm repo add qlik https://qlik.bintray.com/stable`
 1. Initiate Helm for deployment into Kubernetes. Helm Tiller pod is added to the Kubernetes cluster first.
- `helm init --wait`
+ <br/>`helm init --wait`
 1. Install custom resource definitions used by dynamic engines
-`helm install --name qliksense-init qlik/qliksense-init`
+<br/>`helm install --name qliksense-init qlik/qliksense-init`
 1. Install the Qlik Sense packages
-`helm install -n qliksense qlik/qliksense -f values.yaml`
+<br/>`helm install -n qliksense qlik/qliksense -f values.yaml`
 1. List pods to see their current status
-`kubectl get pods`
+<br/>`kubectl get pods`
 1. Repeat previous step until all pods (besides engine) are running. 
 <br/>Note, this takes several minutes. 
 1. Get Minikube IP address 
-`minikube ip`
+<br/>`minikube ip`
 1. Update local host file to enable resolving Minikube IP to *elastic.example*.  
 <br/>Windows: *C:\Windows\System32\drivers\etc\hosts*
 <br/>MacOS: 
