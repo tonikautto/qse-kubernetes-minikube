@@ -17,8 +17,7 @@ helm install --name qliksense-init qlik/qliksense-init
 helm install -n qliksense qlik/qliksense -f values.yaml
 
 # Wait until all pods are running
-$pods_total_count = (kubectl get pods | Measure-Object).Count
-
+$pods_total_count = (kubectl get pods | Measure-Object).Count - 1
 do {
     $pods_running_count = ((kubectl get pods | Select-String -Pattern 'Running') | Measure-Object).Count
     $pods_started_progress = [Math]::Floor(($pods_running_count / $pods_total_count)*100)
