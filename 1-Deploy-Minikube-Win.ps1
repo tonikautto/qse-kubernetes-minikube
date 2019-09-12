@@ -16,8 +16,17 @@ helm install --name qliksense-init qlik/qliksense-init
 # Install the Qlik Sense package
 helm install -n qliksense qlik/qliksense -f values.yaml
 
-# List pods
-kubectl get pods
+# Wait until all pods are running
+$pods_total_count = (kubectl get pods | Measure-Object).Count
+
+do {
+    $pods_running_count = ((kubectl get pods | Select-String -Pattern 'Running') | Measure-Object).Count
+    $pods_started_progress = [Math]::Floor(($pods_running_count / $pods_total_count)*100)
+    Write-Progress -Activity "Starting Kubernetes pods for Qlik Sense Enterprise" -Status "$pods_running_count of $pods_total_count ($pods_started_progress%) pods are in Running state:" -PercentComplete $pods_started_progress
+} while ($pods_started_progress -lt 100)
 
 # Print IP
-minikube ip
+Write-Host "Link Minikube IP $(minikube ip) with elastic.example in Windows host file" -ForegroundColor Green
+Write-Host "C:\Windows\System32\drivers\etc\hosts" -ForegroundColor Green
+Write-Host "$(minikube ip)  elastic.example" -ForegroundColor Green
+ 
