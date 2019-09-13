@@ -2,7 +2,8 @@
 
 # Install Chocolatey package manager
 # Reference https://chocolatey.org/install
-Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+Set-ExecutionPolicy Bypass -Scope Process -Force 
+Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 
 # Virtual box
 choco install virtualbox --yes

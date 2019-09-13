@@ -1,3 +1,8 @@
+# 
+param (
+
+)
+
 # Start minikube with 2 CPU and 8GB RAM
 minikube start --memory 8000 --cpus=4
 
@@ -17,9 +22,11 @@ helm install --name qliksense-init qlik/qliksense-init
 helm install -n qliksense qlik/qliksense -f values.yaml
 
 # Wait until all pods are running
-$pods_total_count = (kubectl get pods | Measure-Object).Count - 1
 do {
-    $pods_running_count = ((kubectl get pods | Select-String -Pattern 'Running') | Measure-Object).Count
+    Start-Sleep -Seconds 20
+    $pods_list = kubectl get pods
+    $pods_total_count = ($pods_list | Measure-Object).Count - 1     # -1 to exclude header row
+    $pods_running_count = (($pods_list | Select-String -Pattern 'Running') | Measure-Object).Count
     $pods_started_progress = [Math]::Floor(($pods_running_count / $pods_total_count)*100)
     Write-Progress -Activity "Starting Kubernetes pods for Qlik Sense Enterprise" -Status "$pods_running_count of $pods_total_count ($pods_started_progress%) pods are in Running state:" -PercentComplete $pods_started_progress
 } while ($pods_started_progress -lt 100)
