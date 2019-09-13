@@ -37,17 +37,6 @@ Hyper-V Requirements: VM Monitor Mode Extensions: Yes
 
 Tools only need to be installed once, and only if not already installed. 
 
-
-* Virtualbox
-* Minikube
-* Kubectl
-* Helm
-
-All required tools can be installed 
-The instriattached script [0-Install-Tools-Chocolatey-Win.ps1](0-Install-Tools-Chocolatey-Win.ps1) uses [Chocolatey package manager for Windows](https://chocolatey.org/) to install all the required tools. 
-
-Either install manually following below commands _OR_ run attached [0-Install-Tools-Chocolatey-Win.ps1](0-Install-Tools-Chocolatey-Win.ps1)
-        
 1. Open PowerShell terminal as Administrator 
 1. Install Chocolatey package manager <br/>
     `Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))`
