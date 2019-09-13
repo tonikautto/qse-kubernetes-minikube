@@ -36,35 +36,39 @@ Hyper-V Requirements: VM Monitor Mode Extensions: Yes
 ## Install Tools
 
 Tools only need to be installed once, and only if not already installed. 
+
+
 * Virtualbox
 * Minikube
 * Kubectl
 * Helm
 
-The attached script [0-Install-Tools-Chocolatey-Win.ps1](0-Install-Tools-Chocolatey-Win.ps1) uses [Chocolatey package manager for Windows](https://chocolatey.org/) to install all the required tools. 
+All required tools can be installed 
+The instriattached script [0-Install-Tools-Chocolatey-Win.ps1](0-Install-Tools-Chocolatey-Win.ps1) uses [Chocolatey package manager for Windows](https://chocolatey.org/) to install all the required tools. 
 
 Either install manually following below commands _OR_ run attached [0-Install-Tools-Chocolatey-Win.ps1](0-Install-Tools-Chocolatey-Win.ps1)
         
 1. Open PowerShell terminal as Administrator 
-1. Run [0-Install-Tools-Chocolatey-Win.ps1](0-Install-Tools-Chocolatey-Win.ps1)
-1. Open Virtualbox GUI to confirm it was installed correctly 
-1. Interact with tools in Powershell temrinal to validate they were installed
-    - Minikube `minikube --help`
-    - Kubectl `kubectl --help`
-    - Helm `helm --help`
+1. Install Chocolatey package manager <br/>
+    `Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))`
+1. Install required tools
+    * Virtual box: `choco install virtualbox --yes`
+    * Minikube: `choco install minikube --yes`
+    * Kubectl: `choco install kubernetes-cli --yes`
+    * Helm: `choco install kubernetes-helm --version 2.13.1 --yes --force`
+    <br/>NOTE, forcing 2.13.1 due to https://support.qlik.com/articles/000075385
 
 ## Deploy Qlik Sense on Kubernetes on Minikube
 
-5. Open PowerShell terminal
-1. Run deployment script [1-Deploy-Minikube-Win.ps1](1-Deploy-Minikube-Win.ps1)
-1. Get Minikube IP address 
-<br/>`minikube ip`
+4. Open PowerShell terminal
+1. Run `./1-Deploy-Minikube-Win.ps1`
+1. Get Minikube IP address<br/> `minikube ip`
 1. Update local host file to enable resolving Minikube IP to *elastic.example*.  
 <br/>Windows hostfile in *C:\Windows\System32\drivers\etc* to include row with IP from previous refering to *elastic.example*  <br /> `<IP ADDRESS> elastic.example` 
 
 ## Access Qlik Sense
 
-9. Browse to console https://elastic.example:32443/console/
+8. Browse to console https://elastic.example:32443/console/
 1. Apply license
 1. Browse to Hub https://elastic.example:32443
     <br/>User: harley@qlik.example
@@ -72,7 +76,7 @@ Either install manually following below commands _OR_ run attached [0-Install-To
 
 ## Remove deployment
 
-12. Terminated and remove minikube instance <br /> `minikube delete`
+11. Terminated and remove minikube instance <br /> `minikube delete`
 
 ## Troubleshooting
 

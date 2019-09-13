@@ -1,10 +1,10 @@
-# 
 param (
-
+    [Int] $VmMemory = 8000,   
+    [Int] $VmCpu = 4
 )
 
 # Start minikube with 2 CPU and 8GB RAM
-minikube start --memory 8000 --cpus=4
+minikube start --memory $VmMemory --cpus=$VmCpu
 
 # Force Kubectl to poin to minikube
 kubectl config set-cluster minikube
