@@ -1,6 +1,6 @@
 # Deploy Qlik Sense for Kubernetes on local Minikube
 
-** ARCHIVED Qlik Sense for Kubernetes is no longer an available product offering from Qlik  **
+**ARCHIVED Qlik Sense for Kubernetes is no longer an available product offering from Qlik**
 
 This project simplifies the deployment of Qlik Sense Enterprise for Kubernetes (QSEoK) on local Minikube. This can be used for testing, but should not be applied in production environment. 
 
